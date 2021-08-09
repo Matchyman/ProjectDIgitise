@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>Interview Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="steps-area steps-area-fixed">
+            <div class="image-holder">
+
+                <div class="steps clearfix">
+                    <a href=""><img class="logo-sm" src="/images/UoB-2018-black.jpg" width="250" height="121"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="multisteps-form__form">
+            <div class="container">
+                <div class="multisteps-form__panel js-active p-4" data-animation="slideHorz">
+                    <div class="page-tile mt-4">
+                        <h2 class="text-center pt-3">Interview Question Randomiser</h2>
+                    </div>
+                    <div class="content mt-3">
+                        <div class="top-info">
+
+                                <form action = "/" method="GET" align="center">
+                                    <button method="Submit" class="btn btn-info q-btn "> Randomize Questions </button>
+                                </form>
+                                <br/>
+                                <form action="/admin" method="GET" align="center">
+                                    <button method="Submit" class="btn btn-danger q-btn "> Admin Mode </button>
+                                </form><br/>
+
+                            <form action="/report" method="POST" name="randomiseFormSubmission">
+                                <div class="row">
+                                    <div class="col-md-6 form-group form-inner-area">
+                                        <label>Student ID:</label>
+                                        <input type="text" class="form-control" name="studentId" id="studentId" required>
+                                    </div>
+                                    <div class="col-md-6 form-group form-inner-area">
+                                        <label>Student Name:</label>
+                                        <input type="text" class="form-control" name="studentName" id="studentName">
+                                    </div>
+                                    <div class="col-md-6 form-group form-inner-area">
+                                        <label>Home Number:</label>
+                                        <input type="text" class="form-control" name="homeNumber" id="homeNumber">
+                                    </div>
+                                    <div class="col-md-6 form-group form-inner-area">
+                                        <label>Mobile Number:</label>
+                                        <input type="text" class="form-control" name="mobileNumber" id="mobileNumber">
+                                    </div>
+                                    <div class="col-md-6 form-group form-inner-select">
+                                        <!-- When intergrated set to whoever is logged in on active directory using cookies   -->
+                                        <label for="interviewerName">Interviewer:</label>
+                                        <select class="form-select" id="interviewerName" name="interviewerName">
+                                            <option> Gail Clarry </option> <!-- Retrieve list from Active Directory or something -> For loop -->
+                                            <option> Laura Carruthers </option>
+                                            <option> Helene Kelly </option>
+                                            <option> Julie Clarke </option>
+                                            <option> Ahmad Khan </option>
+                                            <option> Carlos Verdugo-Manturas </option>
+                                            <option> Ben Chen </option>
+                                            <option> Raj Sampat </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group form-inner-select">
+                                        <label>ID Check Completed?:</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="idCheckComplete" id="idCheckComplete1" value="Yes">
+                                                    <label class="form-check-label" for="idCheckComplete1">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="idCheckComplete" id="idCheckComplete2" value="No">
+                                                    <label class="form-check-label" for="idCheckComplete2">No</label>
+                                                </div>
+                                            </div>
+                                            <select class="form-control" name="idCheckCompleteType">
+                                                <option selected> Type of ID </option>
+                                                <option value = "Passport">Passport</option>
+                                                <option value="ID Card">ID Card</option>
+                                                <option value="Driving Licence">Driving Licence </option>
+                                                <option value="N/A">N/A </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group form-inner-area">
+                                        <label>Interview Conducted on:</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text" for="timestamp"> <b>Date:</b> </div>
+                                            </div>
+                                            <input type="text" class="form-control" name="Timestamp" id="timestamp" disabled value="<%=date%>">
+
+                                            <div class="input-group-append">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text" id="starttimebtn"><b>Time:</b></div>
+                                                </div>
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <input class="text" id="interviewTimeStart" value="" name="interviewTimeStart" hidden="True">
+                                                    <button type="button" onclick="startTime()" id="startInterviewTime" class=" btn btn-success">
+                                                        Click here to start the interview
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <h2 class="text-center mb-2">Initial Checks</h2>
+                                <p> My name is ________ and I am from the University of Bolton. I will be interviewing you with regard to your application. <br> This interview is private & confidential. We will be recording this interview in order to help
+                                    us make a fair decision and for training and monitoring purposes. <br> Do you understand and hear me ok? If at any time you cannot hear me or do not understand my questions, please let me know and I can repeat or re-phrase
+                                    the questions. <br> The majority of our communication is via email so it’s really important that you let us know of any changes, but we may also need to contact you by telephone too. Can you confirm to me your landline
+                                    number, ie your fixed home number? That’s great thank you, and also your personal mobile number? <br> Are you feeling fit, well and happy to be interviewed? </p>
+
+                                <div class="mandatory-questions">
+                                    <h2 class="text-center mb-2">Mandatory Questions</h2>
+                                    <table class="table table-bordered">
+                                        <!-- Questions -->
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th scope="col" style="width: 2%;">S/N</th>
+                                                <th scope="col" style="width: 38%;">Questions</th>
+                                                <th scope="col" style="width: 27%;">Sample Answer</th>
+                                                <th scope="col" style="width: 17%;">Answer Satisfaction</th>
+                                                <th scope="col" style="width: 21%;">Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for(var i = 0; i < data.length; i++){ %>
+                                                <tr>
+                                                    <td>
+                                                        <%= i + 1 %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <input type="text" name="question" value="<%= data[i].question %>" hidden="True">
+                                                            <%= data[i].question %>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <%= data[i].sampleAnswer %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <% if (data[i].isOpen == 1) { %>
+                                                                <select class="form-control" id="satisfsactionOptionSelection" name="satisfsactionOptionSelection">
+                                                                    <option> Satisfactory </option>
+                                                                    <option> Unsatisfactory </option>
+                                                                </select>
+                                                                <% } else { %>
+                                                                    <select class="form-control" id="satisfsactionOptionSelection" name="satisfsactionOptionSelection">
+                                                                    <option> Correct </option>
+                                                                    <option> Incorrect </option>
+                                                                </select>
+                                                                    <% } %>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <textarea class="form-control" aria-label="With textarea" name="commentsArea"></textarea>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="optional-questions mb-4">
+                                    <h2 class="text-center mb-2">Optional Questions</h2>
+                                    <table class="table table-bordered">
+                                        <!-- Questions -->
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th scope="col" style="width: 2%;">S/N</th>
+                                                <th scope="col" style="width: 38%;">Questions</th>
+                                                <th scope="col" style="width: 27%;">Sample Answer</th>
+                                                <th scope="col" style="width: 17%;">Answer Satisfaction</th>
+                                                <th scope="col" style="width: 21%;">Comments</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <% for(var i = 1; i < data2.length; i++){ %>
+                                                <tr>
+                                                    <td>
+                                                        <%= i + 0 %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <input type="text" name="optquestion" value="<%= data2[i].question %>" hidden="True">
+                                                            <%= data2[i].question %>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <%= data2[i].sampleAnswer %>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <% if (data2[i].isOpen == 1) { %>
+                                                                <select class="form-control" id="satisfsactionOptionSelection2" name="satisfsactionOptionSelection2">
+                                                                    <option> Satisfactory </option>
+                                                                    <option> Unsatisfactory </option>
+                                                                    <option> Not Asked </option>
+                                                                </select>
+                                                                <% } else { %>
+                                                                    <select class="form-control" id="satisfsactionOptionSelection2" name="satisfsactionOptionSelection2">
+                                                                    <option> Correct </option>
+                                                                    <option> Incorrect </option>
+                                                                    <option> Not Asked </option>
+                                                                </select>
+                                                                    <% } %>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <textarea class="form-control" aria-label="With textarea" name="commentsArea2"></textarea>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h2 class="text-center mb-2">Final Remarks</h2>
+                                <p>
+                                    Is there anything further you would like to add? Would you like any of the questions repeated? Are you feeling okay, not tired or confused? Has the connection been sufficient for you to understand me? Are you happy with the way the interview has been
+                                    conducted? </p>
+                                <div class="row mt-2">
+                                    <div class="col-md-7 form-group form-inner-area">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text" id="endtimebtn"><b>Interview Finished At:</b></div>
+                                            </div>
+                                            <input class="form-control" id="interviewTimeEnd" value="" name="interviewTimeEnd" hidden="True">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 form-group">
+                                        <button type="button" onclick="endTime()" id="endInterviewTime" class="btn btn-danger q-btn float-right">
+                                            Click here to end interview
+                                        </button>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label>Overall Comments:</label>
+                                        <textarea class="form-control" rows="3" name="overallCommentsText"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group form-inner-area">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Zoom Link:</div>
+                                            </div>
+                                            <input type="text" class="form-control" name="zoomLink" id="urlLinkContent">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label>Recomendation</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="recomendationOption" id="recomendationOption1" value="Accept">
+                                                    <label class="form-check-label" for="recomendationOption1">Accept</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="recomendationOption" id="recomendationOption2" value="Reject">
+                                                    <label class="form-check-label" for="recomendationOption2">Reject</label>
+                                                </div>
+                                            </div>
+                                            <div class="input-group form-inner-area">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Reason:</div>
+                                                </div>
+                                                <input type="text" class="form-control" name="recomendationReasons" id="urlLinkContent">
+                                            </div>
+                                            <!-- <input type="text" class="input form-control"> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 mb-5">
+                                    <button method="Submit" class="btn btn-success q-btn float-right"> Submit </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="/javascripts/scripts.js"></script>
+</body>
+
+</html>

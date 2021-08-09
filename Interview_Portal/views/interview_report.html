@@ -1,0 +1,190 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/fontawesome-all.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css">
+
+    <title>Interview Report</title>
+</head>
+
+<body>
+    <div class="clearfix"></div>
+    <div class="container">
+        <div class="wrapper-class">
+            <div class="printable-area">
+                <div class="d-flex">
+                    <div class="bot-logo float-right">
+                        <img src="/images/UoB-2018-black.jpg" width="300" height="121" class="float-right">
+                    </div>
+                </div>
+
+                <div class="page-tile mt-4">
+                    <h2 class="text-center pt-3">Interview Report</h2>
+                </div>
+
+                <div class="content mt-3">
+                    <div class="top-info">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Student ID:</label>
+                                <p>
+                                    <%= data.studentId %>
+                                </p>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Student Name:</label>
+                                <p>
+                                    <%= data.studentName %>
+                                </p>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Home Number:</label>
+                                <p>
+                                    <%= data.homeNumber %>
+                                </p>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Mobile Number:</label>
+                                <p>
+                                    <%= data.mobileNumber %>
+                                </p>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label>ID Check:</label>
+                                <p>
+                                    <%=data.idCheckComplete%>
+                                </p>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label>ID Check Type:</label>
+                                <p>
+                                    <%=data.idCheckCompleteType%>
+                                </p>
+                            </div>
+                            <div class="col-md-7 form-group">
+                                <label>Zoom Link:</label>
+                                <p><small><a href=""><%=data.zoomLink%></a></small></p>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Interviewed By:</label>
+                                <p>
+                                    <%=data.interviewerName %>
+                                </p>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Start Time:</label>
+                                <p>
+                                    <%= data.interviewTimeStart %>
+                                </p>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>End Time:</label>
+                                <p>
+                                    <%= data.interviewTimeEnd %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="middle-info">
+                        <div class="report-table">
+                            <div class="mandatory-questions">
+                                <h3 class="text-center mb-2"><b>Mandatory Questions</b></h3>
+                                <table class="table table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th scope="col" class="text-center">Question</th>
+                                            <th scope="col" class="text-center">Satisfaction</th>
+                                            <th scope="col" class="text-center">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(var i = 0; i < data.question.length; i++){ %>
+                                            <tr>
+                                                <td class="question-col">
+                                                    <%= data.question[i] %>
+                                                </td>
+                                                <td>
+                                                    <%= data.satisfsactionOptionSelection[i] %>
+                                                </td>
+                                                <td>
+                                                    <%= data.commentsArea[i] %>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="optional-questions mb-4">
+                                <h3 class="text-center mb-2"><b>Optional Questions Asked</b></h3>
+                                <table class="table table-bordered">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th scope="col" class="text-center">Question</th>
+                                            <th scope="col" class="text-center">Satisfaction</th>
+                                            <th scope="col" class="text-center">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(var i = 0; i < data.optquestion.length; i++){ %>
+                                            <% if(data.satisfsactionOptionSelection2[i] !== "Not Asked"){ %>
+                                                <tr>
+                                                    <td class="question-col">
+                                                        <%= data.optquestion[i] %>
+                                                    </td>
+                                                    <td>
+                                                        <%= data.satisfsactionOptionSelection2[i] %>
+                                                    </td>
+                                                    <td>
+                                                        <%= data.commentsArea2[i] %>
+                                                    </td>
+                                                </tr>
+                                            <% } %>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label><b>Overall Comments:</b></label>
+                                <p class="comment-box">
+                                    <%= data.overallCommentsText %>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="report-recomendation">
+                            <div class="row">
+                                <div class="col-md-12 form-group form-inline">
+                                    <label>Recomendation: </label>
+                                    <p class="option mb-0 ml-1">
+                                        <%= data.recomendationOption%>
+                                    </p>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Recomendation Reasons:</label>
+                                    <p class="comment-box">
+                                        <%= data.recomendationReasons%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="print-report mt-3">
+                    <button type="submit" class="btn btn-uob-back"><i class="fa fa-arrow-left"></i> Back</button>
+                    <button type="submit" class="btn btn-uob-print float-right"><i class="fa fa-print"></i> Print</button>
+                </div> -->
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="/javascripts/scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Refund Portal</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 align="center">Refund Application Portal</h2>
+
+        
+        <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchFunction()">
+       
+
+
+        <!-- This is just the navigation bar for each tab don't need to mess with these (please)  -->
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+            <li><a data-toggle="tab" href="#Applications">Applications</a></li>
+            <li><a data-toggle="tab" href="#FinancePeople">Finance People</a></li>
+            <li><a data-toggle="tab" href="#Completed">Completed</a></li>
+        </ul>
+
+        <!-- Now all we need to do is take the data from the database and render it into the tables -->
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <h3>Getting Started.</h3>
+                <p>
+                    Applications - To view and manage initial refund applications <br/>
+                    Finance - For Finance Staff to view and manage refund requests. <br/>
+                    Completed - To see the accepted/rejected finance requests. <br/>
+                </p>
+
+            </div>
+            <div id="Applications" class="tab-pane fade">
+                <h3>Pending Applications</h3>
+                <p>Pending applications will come here initially.</p>
+                <table id="intTable" class="table">
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Visa Refusal Document</th>
+                        <th> Any extra reasons </th>
+                        <th> Accept/Deny</th>
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept === null) { %>
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.ref_reason %>
+                                </td>
+                                <td>
+                                    <a href="/uploads/<%= data.visa_ref_file %>.png" target="_blank">
+                                        <%= data.visa_ref_file %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <%= data.ref_ex_reason %>
+                                </td>
+                                <form action="/intsubmission" name="int_submission" method="POST">
+                                    <td>
+                                        <div align="center">
+                                            <button class="btn btn-success" name="intAccept" value="true">Accept</button>
+                                            <button class="btn btn-danger" name="intAccept" value="false" onclick='denyReasonPrompt()'>Deny</button>
+                                        </div>
+                                    </td>
+                                    <input name="denyReason" id="denyReason" hidden>
+                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                </form>
+                            </tbody>
+                            <% } %>
+                                <% }) %>
+                </table>
+
+            </div>
+            <div id="FinancePeople" class="tab-pane fade">
+                <h3>Finance Staff</h3>
+                <p>For finance staff to view and manage refund requests.</p>
+                <table id="fiTable" class="table">
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Method of Payment</th>
+                        <th> Bank Details</th>
+                        <th> Accept/Deny </th>
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept != null && data.fi_accept === null && data.int_accept != false) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.pay_type %>
+                                </td>
+                                <% if (data.pay_type === 'bank') { %>
+                                    <td>
+                                        <!-- Here is where the bank details goes atm  -->
+                                        <%= data.acc_name_ht %>
+                                            <%= data.acc_num_ht %>
+                                                <%= data.sort_code %>
+                                    </td>
+                                    <% } %>
+                                        <% if (data.pay_type === 'international') { %>
+                                            <td>
+                                                <!-- Here is where the bank details goes atm  -->
+                                                <%= data.acc_name_it %>
+                                                    <%= data.iban_it %>
+                                                        <%= data.swift_it %>
+                                                            <%= data.bank_name_it %>
+                                                                <%= data.bank_address_it %>
+                                            </td>
+                                            <% } %>
+                                                <form action="/fisubmission" name="int_submission" method="POST">
+                                                    <td>
+                                                        <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
+                                                        <input name="denyReason" id="denyReason" hidden>
+                                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='denyReasonPrompt()'>Deny</button>
+                                                    </td>
+
+                                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                                </form>
+                            </tbody>
+                            <% } %>
+                                <% }) %>
+                </table>
+            </div>
+            <div id="Completed" class="tab-pane fade">
+                <h3>Completed</h3>
+                <p>Completed applications can be found here.</p>
+                <table id="compTable" class="table">
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Int Completed On</th>
+                        <th> Finance Completed On</th>
+                        <th> Rejection Reason (if any)
+                            <th>
+
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept != null && data.fi_accept != null) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.int_dec_date.toDateString() %>
+
+
+
+                                </td>
+                                <% if (data.fi_dec_date != null) { %>
+                                    <td>
+                                        <%= data.int_dec_date.toDateString() %>
+                                    </td>
+
+                                    <% } else { %>
+                                        <td>
+                                        </td>
+                                        <% } %>
+
+                                            <% if (data.int_rej_reason != null || data.fi_rej_reason != null) { %>
+                                                <td>
+                                                    <%= data.int_rej_reason %>
+                                                        <%= data.fi_rej_reason %>
+                                                </td>
+                                                <% } %>
+
+
+                                                    <% } %>
+                                                        <% }) %>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/scripts.js" async defer></script>
+
+</body>
+
+</html>
